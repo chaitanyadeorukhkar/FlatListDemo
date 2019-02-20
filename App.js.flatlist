@@ -1,0 +1,157 @@
+/**
+ * Sample x Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ * @lint-ignore-every XPLATJSCOPYRIGHT1
+ */
+
+import React, { Component } from "react";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  SafeAreaView
+} from "react-native";
+import * as R from "ramda";
+
+const instructions = Platform.select({
+  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
+  android:
+    "Double tap R on your keyboard to reload,\n" +
+    "Shake or press menu button for dev menu"
+});
+
+type Props = {};
+
+type State = {
+  data: Array<number>
+};
+
+export default class App extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      data: [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    };
+  }
+
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.setState({
+        data: [
+          21,
+          22,
+          23,
+          24,
+          25,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      });
+    }, 5000);
+  };
+
+  handleChange = () => {
+    console.log("changed", this.refs);
+    // this.refs._list.scrollToIndex({
+    //   animated: false,
+    //   index: R.findIndex(x => x === 13, this.state.data)
+    // });
+  };
+
+  renderItem = (row: Object) => {
+    return (
+      <Text style={{ fontSize: 20, textAlign: "center", height: 50 }}>
+        {row.item}
+      </Text>
+    );
+  };
+
+  render() {
+    const initialIndex = R.findIndex(x => x == 13, this.state.data);
+    console.log("IndexOf13", initialIndex);
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={this.state.data}
+          renderItem={this.renderItem}
+          ref={"_list"}
+          contentContainerStyle={{ width: "100%", backgroundColor: "white" }}
+          style={{ width: "100%", backgroundColor: "white" }}
+          inverted
+          keyExtractor={item => item.toString()}
+          // onContentSizeChange={this.handleChange}
+          initialScrollIndex={initialIndex}
+          getItemLayout={(data, index) => ({
+            length: 50,
+            offset: 50 * index,
+            index
+          })}
+        />
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white"
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: "center",
+    margin: 10
+  },
+  instructions: {
+    textAlign: "center",
+    color: "#333333",
+    marginBottom: 5
+  }
+});
